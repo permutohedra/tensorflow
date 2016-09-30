@@ -2939,6 +2939,7 @@ py_library(
         "client/client_lib.py",
         "client/device_lib.py",
         "client/timeline.py",
+        "client/threads.py",
     ],
     srcs_version = "PY2AND3",
     deps = [

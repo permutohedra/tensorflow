@@ -17,6 +17,7 @@ limitations under the License.
 #define TENSORFLOW_LIB_CORE_THREADPOOL_H_
 
 #include <functional>
+#include <list>
 #include <memory>
 #include "tensorflow/core/platform/env.h"
 #include "tensorflow/core/platform/macros.h"
@@ -92,7 +93,12 @@ class ThreadPool {
       const std::function<void(int64, int64, int)>& fn);
 
   // Returns the number of threads in the pool.
-  int NumThreads() const;
+  int NumThreads() const { return num_threads_; }
+
+  // Wait until all scheduled work has finished and exit all threads.
+  static void PauseAllThreads();
+  // Recreate all threads destroyed by PauseAllThreads().
+  static void ResumeAllThreads();
 
   // Returns current thread id between 0 and NumThreads() - 1, if called from a
   // thread in the pool. Returns -1 otherwise.
@@ -101,7 +107,19 @@ class ThreadPool {
   struct Impl;
 
  private:
+  Env* const env_;
+  const ThreadOptions thread_options_;
+  const string name_;
+  const int num_threads_;
+  const bool low_latency_hint_;
+
   std::unique_ptr<Impl> impl_;
+
+  // All ThreadPool instances register themselves onto this list when created.
+  static std::list<ThreadPool*> all_thread_pools_;
+  static std::mutex all_thread_pools_mu_;
+  std::list<ThreadPool*>::iterator all_thread_pools_it_;
+
   TF_DISALLOW_COPY_AND_ASSIGN(ThreadPool);
 };
 
