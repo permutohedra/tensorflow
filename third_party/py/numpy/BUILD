@@ -8,10 +8,18 @@ py_library(
     srcs_version = "PY2AND3",
 )
 
-alias(
+# Use a mechanism from the workspace to import Python header files.
+cc_library(
     name = "headers",
-    actual = "@local_config_python//:numpy_headers",
+    deps = ["//external:numpy_headers"],
 )
+
+#cc_library(
+#    name = "headers",
+#    hdrs = glob(["numpy_include/**/*.h"]),
+#    data = ["//util/python:python_checked"],
+#    includes = ["numpy_include"],
+#)
 
 genrule(
     name = "dummy",
