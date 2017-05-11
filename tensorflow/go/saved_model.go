@@ -22,7 +22,7 @@ import (
 )
 
 // #include <stdlib.h>
-// #include "tensorflow/c/c_api.h"
+// #include "c_api.h"
 import "C"
 
 // SavedModel represents the contents of loaded SavedModel.

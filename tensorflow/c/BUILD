@@ -21,8 +21,11 @@ filegroup(
         "c_api.h",
         "c_api_experimental.h",
     ],
-    visibility = ["//tensorflow:__subpackages__"],
+    # NOTE(eyj): make this visible for go bindings defined in rSERVER.
+    visibility = ["//visibility:public"],
 )
+
+exports_files(['c_api.h'])
 
 filegroup(
     name = "srcs",

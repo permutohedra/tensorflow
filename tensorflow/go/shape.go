@@ -21,6 +21,9 @@ import (
 	"strings"
 )
 
+// #include "c_api.h"
+import "C"
+
 // Shape represents the (possibly partially known) shape of a tensor that will
 // be produced by an operation.
 //
