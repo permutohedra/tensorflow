@@ -784,6 +784,9 @@ tf_cc_shared_object(
             "-s",
             "-Wl,--version-script",  #  This line must be directly followed by the version_script.lds file
             "//tensorflow/c:version_script.lds",
+	    # NOTE(yxiong): Need to link with librt to avoid "undefined symbol: clock_gettime" error.
+	    # See https://github.com/tensorflow/tensorflow/issues/121 for more details.
+	    "-lrt",
         ],
     }),
     deps = [

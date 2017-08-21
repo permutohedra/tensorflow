@@ -1324,7 +1324,9 @@ register_extension_info(
 )
 
 def tf_extension_linkopts():
-  return []  # No extension link opts
+  # NOTE(yxiong): Need to link with librt to avoid "undefined symbol: clock_gettime" error.
+  # See https://github.com/tensorflow/tensorflow/issues/121 for more details.
+  return ["-lrt"]
 
 def tf_extension_copts():
   return []  # No extension c opts
