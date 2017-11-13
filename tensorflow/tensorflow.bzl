@@ -440,10 +440,10 @@ def tf_gen_op_wrappers_cc(name,
         op_gen=op_gen,
         include_internal_ops=include_internal_ops,
         api_def_srcs=api_def_srcs)
-    subsrcs += ["ops/" + n + ".cc"]
-    subhdrs += ["ops/" + n + ".h"]
-    internalsrcs += ["ops/" + n + "_internal.cc"]
-    internalhdrs += ["ops/" + n + "_internal.h"]
+    subsrcs = subsrcs + ["ops/" + n + ".cc"]
+    subhdrs = subhdrs + ["ops/" + n + ".h"]
+    internalsrcs = internalsrcs + ["ops/" + n + "_internal.cc"]
+    internalhdrs = internalhdrs + ["ops/" + n + "_internal.h"]
 
   native.cc_library(
       name=name,
