@@ -1308,6 +1308,7 @@ cc_library(
         "include/llvm/Demangle/*.h",
         "include/llvm/Demangle/*.def",
         "include/llvm/Demangle/*.inc",
+        "include/llvm/Support/*.h",
     ]),
     deps = [":config"],
 )
@@ -1502,6 +1503,7 @@ cc_library(
         "include/llvm/MC/*.h",
         "include/llvm/MC/*.def",
         "include/llvm/MC/*.inc",
+        "include/llvm/MC/MCParser/*.h",
     ]),
     deps = [
         ":binary_format",
@@ -2035,6 +2037,7 @@ cc_library(
         "lib/TableGen/*.h",
     ]),
     hdrs = glob([
+        "include/llvm/CodeGen/*.def",
         "include/llvm/TableGen/*.h",
         "include/llvm/TableGen/*.def",
         "include/llvm/TableGen/*.inc",
@@ -2084,6 +2087,7 @@ cc_library(
         "lib/Transforms/Utils/*.h",
     ]),
     hdrs = glob([
+        "include/llvm/CodeGen/*.h",
         "include/llvm/Transforms/Utils/*.h",
         "include/llvm/Transforms/Utils/*.def",
         "include/llvm/Transforms/Utils/*.inc",
