@@ -1170,7 +1170,7 @@ def cc_header_only_library(name, deps=[], includes=[], **kwargs):
     nsynch = "../../external/nsync/public"
     # Building tensorflow from elsewhere finds it four up.
     # Note that native.repository_name() is not yet available in TF's Kokoro.
-    if REPOSITORY_NAME != "@":
+    if native.repository_name() != "@":
       nsynch = "../../" + nsynch
     includes = includes[:]
     includes.append(nsynch)
