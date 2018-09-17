@@ -9,7 +9,7 @@ licenses(["notice"])  # Apache 2.0
 
 filegroup(
     name = 'srcs',
-    srcs = ['doc.go'],
+    srcs = ['doc.go', 'shape.go'],
     visibility = ['//visibility:public'],
 )
 
@@ -19,6 +19,7 @@ filegroup(
         ['*.go'],
         exclude = [
             'doc.go',
+            'shape.go',
             '*_test.go',
         ],
     ),

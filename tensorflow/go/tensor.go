@@ -18,7 +18,7 @@ package tensorflow
 
 // #include <stdlib.h>
 // #include <string.h>
-// #include "c_api.h"
+// #include "tensorflow/c/c_api.h"
 import "C"
 
 import (

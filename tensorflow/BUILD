@@ -797,8 +797,6 @@ tf_cc_shared_object(
         "//tensorflow/c/eager:c_api",
         "//tensorflow/core:tensorflow",
     ],
-    # NOTE(eyj): make this visible for go bindings defined in rSERVER.
-    visibility = ["//visibility:public"],
 )
 
 tf_cc_shared_object(

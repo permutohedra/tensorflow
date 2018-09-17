@@ -17,7 +17,7 @@ limitations under the License.
 package tensorflow
 
 // #include <string.h>
-// #include "c_api.h"
+// #include "tensorflow/c/c_api.h"
 import "C"
 
 // Version returns a string describing the version of the underlying TensorFlow
