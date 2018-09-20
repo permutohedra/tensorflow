@@ -25,6 +25,7 @@ from __future__ import print_function
 # pylint: disable=unused-import
 from tensorflow.python.client.session import InteractiveSession
 from tensorflow.python.client.session import Session
+from tensorflow.python.client.threads import pause_all_threads, resume_all_threads
 
 from tensorflow.python.framework import errors
 from tensorflow.python.framework.errors import OpError

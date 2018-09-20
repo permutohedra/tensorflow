@@ -37,7 +37,11 @@ constexpr int kNumThreads = 8;
 // Run a function in parallel using a ThreadPool, but skip the ThreadPool
 // on the iOS platform due to its problems with more than a few threads.
 void ForEach(int first, int last, const std::function<void(int)>& f) {
-#if TARGET_OS_IPHONE
+// Disable the parallel code because it causes a double-free in
+// _dl_deallocate_tls at thread join -- not clear why.
+// TODO(ctl) Re-evaluate this after upgrading to TF 1.4.
+#if 1
+//#if TARGET_OS_IPHONE
   for (int i = first; i < last; i++) {
     f(i);
   }

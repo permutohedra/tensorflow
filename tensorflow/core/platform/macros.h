@@ -16,6 +16,25 @@ limitations under the License.
 #ifndef TENSORFLOW_PLATFORM_MACROS_H_
 #define TENSORFLOW_PLATFORM_MACROS_H_
 
+
+// Dropbox-local patch: turn off a variety of compiler warnings triggered by
+// -Wall in various parts of the Tensorflow source code.
+#pragma GCC diagnostic ignored "-Wcomment"
+#pragma GCC diagnostic ignored "-Wformat-truncation"
+#pragma GCC diagnostic ignored "-Wignored-attributes"
+#pragma GCC diagnostic ignored "-Wint-in-bool-context"
+#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+#pragma GCC diagnostic ignored "-Wparentheses"
+#pragma GCC diagnostic ignored "-Wreturn-type"
+#pragma GCC diagnostic ignored "-Wsign-compare"
+#pragma GCC diagnostic ignored "-Wuninitialized"
+#pragma GCC diagnostic ignored "-Wunused-but-set-variable"
+#pragma GCC diagnostic ignored "-Wunused-function"
+#pragma GCC diagnostic ignored "-Wunused-result"
+#pragma GCC diagnostic ignored "-Wunused-variable"
+// End Dropbox-local patch.
+
+
 // Compiler attributes
 #if (defined(__GNUC__) || defined(__APPLE__)) && !defined(SWIG)
 // Compiler supports GCC-style attributes

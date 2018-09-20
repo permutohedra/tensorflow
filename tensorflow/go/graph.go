@@ -16,7 +16,7 @@ limitations under the License.
 
 package tensorflow
 
-// #include "tensorflow/c/c_api.h"
+// #include "c_api.h"
 //
 // #include <stdlib.h>
 // #include <string.h>

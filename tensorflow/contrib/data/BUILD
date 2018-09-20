@@ -14,6 +14,10 @@ load(
     "//tensorflow/core:platform/default/build_config_root.bzl",
     "if_static",
 )
+load(
+    "//tensorflow/core:platform/default/build_config_root.bzl",
+    "if_static",
+)
 
 py_library(
     name = "data",
