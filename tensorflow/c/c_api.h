@@ -1603,6 +1603,15 @@ TF_CAPI_EXPORT extern TF_Buffer* TF_ApiDefMapGet(TF_ApiDefMap* api_def_map,
                                                  size_t name_len,
                                                  TF_Status* status);
 
+// Stop/resume all threads owned by ThreadPools.
+// This can be used to safely fork a process after a Session has been created.
+// TF_PauseAllThreads waits for all ThreadPools to quiesce and the
+// corresponding threads to exit before returning. It is an error to enqueue
+// any work onto any ThreadPool (e.g. by running a graph) before
+// TF_ResumeAllThreads() is called.
+extern void TF_PauseAllThreads();
+extern void TF_ResumeAllThreads();
+
 #ifdef __cplusplus
 } /* end extern "C" */
 #endif

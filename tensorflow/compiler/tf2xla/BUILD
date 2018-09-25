@@ -58,6 +58,17 @@ xla_proto_library(
     ],
 )
 
+load("//tensorflow/core:platform/default/build_config.bzl", "tf_proto_library_py")
+
+tf_proto_library_py(
+    name = "tf2xla_proto",  # bzl adds a _py suffix
+    srcs = ["tf2xla.proto"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//tensorflow/core:protos_all_py",
+    ],
+)
+
 xla_proto_library(
     name = "host_compute_metadata_proto",
     srcs = ["host_compute_metadata.proto"],

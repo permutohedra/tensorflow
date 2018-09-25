@@ -50,6 +50,7 @@ limitations under the License.
 #include "tensorflow/core/lib/core/errors.h"
 #include "tensorflow/core/lib/core/status.h"
 #include "tensorflow/core/lib/core/stringpiece.h"
+#include "tensorflow/core/lib/core/threadpool.h"
 #include "tensorflow/core/lib/gtl/array_slice.h"
 #include "tensorflow/core/lib/strings/strcat.h"
 #include "tensorflow/core/platform/mem.h"
@@ -965,6 +966,16 @@ TF_DEVICELIST_METHOD(const char*, TF_DeviceListType, device_type().c_str(),
 TF_DEVICELIST_METHOD(int64_t, TF_DeviceListMemoryBytes, memory_limit(), -1);
 
 #undef TF_DEVICELIST_METHOD
+
+// --------------------------------------------------------------------------
+
+void TF_PauseAllThreads() {
+  tensorflow::thread::ThreadPool::PauseAllThreads();
+}
+
+void TF_ResumeAllThreads() {
+  tensorflow::thread::ThreadPool::ResumeAllThreads();
+}
 
 }  // end extern "C"
 

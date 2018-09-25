@@ -107,21 +107,35 @@ ThreadPool::ThreadPool(Env* env, const ThreadOptions& thread_options,
 
 ThreadPool::ThreadPool(Env* env, const ThreadOptions& thread_options,
                        const string& name, int num_threads,
-                       bool low_latency_hint) {
-  CHECK_GE(num_threads, 1);
-  impl_.reset(new ThreadPool::Impl(env, thread_options, "tf_" + name,
-                                   num_threads, low_latency_hint));
+                       bool low_latency_hint)
+    : env_(env),
+      thread_options_(thread_options),
+      name_("tf_" + name),
+      num_threads_(num_threads),
+      low_latency_hint_(low_latency_hint) {
+  CHECK_GE(num_threads_, 1);
+  impl_.reset(new ThreadPool::Impl(env_, thread_options_, name_,
+                                   num_threads_, low_latency_hint_));
+
+  std::lock_guard<std::mutex> lock(all_thread_pools_mu_);
+  all_thread_pools_.push_front(this);
+  all_thread_pools_it_ = all_thread_pools_.begin();
 }
 
-ThreadPool::~ThreadPool() {}
+ThreadPool::~ThreadPool() {
+  std::lock_guard<std::mutex> lock(all_thread_pools_mu_);
+  all_thread_pools_.erase(all_thread_pools_it_);
+}
 
 void ThreadPool::Schedule(std::function<void()> fn) {
   CHECK(fn != nullptr);
+  CHECK(impl_);
   impl_->Schedule(std::move(fn));
 }
 
 void ThreadPool::ParallelFor(int64 total, int64 cost_per_unit,
                              std::function<void(int64, int64)> fn) {
+  CHECK(impl_);
   impl_->ParallelFor(total, cost_per_unit, std::move(fn));
 }
 
@@ -139,7 +153,28 @@ void ThreadPool::ParallelForWithWorkerId(
                      });
 }
 
-int ThreadPool::NumThreads() const { return impl_->NumThreads(); }
+void ThreadPool::PauseAllThreads() {
+  std::lock_guard<std::mutex> lock(all_thread_pools_mu_);
+  for (ThreadPool* tp : all_thread_pools_) {
+    // This will immediately set impl_ to nullptr and then wait for any
+    // outstanding work items to complete. This means that it is an error to
+    // call Schedule() after PauseAllThreads() is called, even from within
+    // another work item.
+    tp->impl_.reset();
+  }
+}
+
+void ThreadPool::ResumeAllThreads() {
+  std::lock_guard<std::mutex> lock(all_thread_pools_mu_);
+  for (ThreadPool* tp : all_thread_pools_) {
+    tp->impl_.reset(new ThreadPool::Impl(
+          tp->env_, tp->thread_options_, tp->name_,
+	  tp->num_threads_, tp->low_latency_hint_));
+  }
+}
+
+std::list<ThreadPool*> ThreadPool::all_thread_pools_;
+std::mutex ThreadPool::all_thread_pools_mu_;
 
 int ThreadPool::CurrentThreadId() const { return impl_->CurrentThreadId(); }
 

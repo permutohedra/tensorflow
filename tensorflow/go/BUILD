@@ -7,7 +7,24 @@ package(
 
 licenses(["notice"])  # Apache 2.0
 
-exports_files(["LICENSE"])
+filegroup(
+    name = 'srcs',
+    srcs = ['doc.go', 'shape.go'],
+    visibility = ['//visibility:public'],
+)
+
+filegroup(
+    name = 'cgo_srcs',
+    srcs = glob(
+        ['*.go'],
+        exclude = [
+            'doc.go',
+            'shape.go',
+            '*_test.go',
+        ],
+    ),
+    visibility = ['//visibility:public'],
+)
 
 sh_test(
     name = "test",

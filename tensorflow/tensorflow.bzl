@@ -212,6 +212,7 @@ def tf_copts(android_optimization_level_override="-O2", is_external=False):
           "-DEIGEN_AVOID_STL_ARRAY",
           "-Iexternal/gemmlowp",
           "-Wno-sign-compare",
+          "-Wno-ignored-attributes",
           "-fno-exceptions",
           "-ftemplate-depth=900"])
       + if_cuda(["-DGOOGLE_CUDA=1"])
@@ -476,10 +477,10 @@ def tf_gen_op_wrappers_cc(name,
         op_gen=op_gen,
         include_internal_ops=include_internal_ops,
         api_def_srcs=api_def_srcs)
-    subsrcs += ["ops/" + n + ".cc"]
-    subhdrs += ["ops/" + n + ".h"]
-    internalsrcs += ["ops/" + n + "_internal.cc"]
-    internalhdrs += ["ops/" + n + "_internal.h"]
+    subsrcs = subsrcs + ["ops/" + n + ".cc"]
+    subhdrs = subhdrs + ["ops/" + n + ".h"]
+    internalsrcs = internalsrcs + ["ops/" + n + "_internal.cc"]
+    internalhdrs = internalhdrs + ["ops/" + n + "_internal.h"]
 
   native.cc_library(
       name=name,
@@ -1384,6 +1385,14 @@ register_extension_info(
     extension_name = "tf_custom_op_py_library",
     label_regex_for_dep = "{extension_name}",
 )
+
+def tf_extension_linkopts():
+  # NOTE(yxiong): Need to link with librt to avoid "undefined symbol: clock_gettime" error.
+  # See https://github.com/tensorflow/tensorflow/issues/121 for more details.
+  return ["-lrt"]
+
+def tf_extension_copts():
+  return []  # No extension c opts
 
 # In tf_py_wrap_cc generated libraries
 # module init functions are not exported unless
