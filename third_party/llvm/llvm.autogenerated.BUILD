@@ -593,6 +593,7 @@ cc_library(
         "include/llvm/Analysis/*.h",
         "include/llvm/Analysis/*.def",
         "include/llvm/Analysis/*.inc",
+        "include/llvm/Analysis/Utils/*.h",
     ]),
     copts = llvm_copts,
     deps = [
@@ -1306,6 +1307,7 @@ cc_library(
         "include/llvm/Transforms/InstCombine/*.h",
         "include/llvm/Transforms/InstCombine/*.def",
         "include/llvm/Transforms/InstCombine/*.inc",
+        "include/llvm-c/Transforms/InstCombine.h",
     ]),
     copts = llvm_copts,
     deps = [
@@ -1637,6 +1639,7 @@ cc_library(
     ]),
     copts = llvm_copts,
     deps = [
+        ":bit_writer",
         ":config",
         ":core",
         ":execution_engine",
@@ -2013,6 +2016,8 @@ cc_library(
         "include/llvm/Transforms/Utils/*.h",
         "include/llvm/Transforms/Utils/*.def",
         "include/llvm/Transforms/Utils/*.inc",
+        "include/llvm/Transforms/Utils.h",
+        "include/llvm-c/Transforms/Utils.h",
     ]),
     copts = llvm_copts,
     deps = [
