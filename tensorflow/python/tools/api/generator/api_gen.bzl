@@ -165,4 +165,7 @@ def gen_api_init_files(
         srcs = srcs,
         tools = [":" + api_gen_binary_target ],
         visibility = ["//tensorflow:__pkg__"],
+        # NOTE(jongmin): This target will dynamically load build artifacts (shared library), but the
+        # system python in sandbox is linked against an older version of libstdc++ and will fail.
+        tags = ['local'],
     )
