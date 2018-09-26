@@ -44,11 +44,7 @@ import traceback
 # go/tf-wildcard-import
 # pylint: disable=wildcard-import,g-bad-import-order,g-import-not-at-top
 
-# NOTE(jongmin): This file is imported by some python scripts that run during build time,
-# so some of its imports will break, as we currently don't have a good way to declare dependencies
-# on our pip modules. So we will comment out some imports.
-
-# import numpy as np  # NOTE(jongmin): commented out to avoid ImportError
+import numpy as np
 
 from tensorflow.python import pywrap_tensorflow
 
@@ -121,7 +117,7 @@ from tensorflow.python.platform import gfile
 from tensorflow.python.platform import tf_logging as logging
 from tensorflow.python.platform import resource_loader
 from tensorflow.python.platform import sysconfig
-# from tensorflow.python.platform import test  # NOTE(jongmin): commented out to avoid ImportError
+from tensorflow.python.platform import test
 
 from tensorflow.python.util.all_util import make_all
 from tensorflow.python.util.tf_export import tf_export

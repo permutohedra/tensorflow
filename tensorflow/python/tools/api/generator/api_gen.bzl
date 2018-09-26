@@ -102,6 +102,8 @@ ESTIMATOR_API_INIT_FILES = [
     # END GENERATED ESTIMATOR FILES
 ]
 
+load('@//build_tools/py:py.bzl', 'dbx_py_binary')
+
 def gen_api_init_files(
         name,
         output_files = TENSORFLOW_API_INIT_FILES,
@@ -142,16 +144,23 @@ def gen_api_init_files(
       root_init_template_flag = "--root_init_template=$(location " + root_init_template + ")"
 
     api_gen_binary_target = "create_" + package + "_api"
-    native.py_binary(
+    dbx_py_binary(
         name = "create_" + package + "_api",
         srcs = ["//tensorflow/python/tools/api/generator:create_python_api.py"],
         main = "//tensorflow/python/tools/api/generator:create_python_api.py",
-        srcs_version = "PY2AND3",
+        # srcs_version = "PY2AND3",
         visibility = ["//visibility:public"],
         deps = [
             package_dep,
             "//tensorflow/python/tools/api/generator:doc_srcs",
+            "@//pip/backports.weakref",
+            "@//pip/mock",
+            "@//pip/numpy",
+            "@//thirdparty/enum34",
+            "@//thirdparty/tensorflow:absl_flags",
+            "@//thirdparty/tensorflow:protobuf",
         ],
+        autogen_deps = False,
     )
 
     native.genrule(
@@ -165,7 +174,4 @@ def gen_api_init_files(
         srcs = srcs,
         tools = [":" + api_gen_binary_target ],
         visibility = ["//tensorflow:__pkg__"],
-        # NOTE(jongmin): This target will dynamically load build artifacts (shared library), but the
-        # system python in sandbox is linked against an older version of libstdc++ and will fail.
-        tags = ['local'],
     )
