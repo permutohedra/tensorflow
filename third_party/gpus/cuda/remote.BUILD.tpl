@@ -45,6 +45,11 @@ alias(
 )
 
 alias(
+    name = "cudnn_header",
+    actual = "%{remote_cuda_repo}/cuda:cudnn_header",
+)
+
+alias(
     name = "cudart_static",
     actual = "%{remote_cuda_repo}/cuda:cudart_static",
 )
