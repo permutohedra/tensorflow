@@ -150,7 +150,7 @@ tf_cuda_library(
     deps = select({
         "//tensorflow:android": [
             "//tensorflow/core:android_tensorflow_lib_lite",
-            "//util/hash:farmhash_fingerprint",
+            # "//util/hash:farmhash_fingerprint",  # Commented out to appease bazel query
         ],
         "//conditions:default": [
             "//tensorflow/core:core_cpu_lib",
@@ -223,7 +223,7 @@ tf_cuda_library(
     ] + select({
         "//tensorflow:android": [
             "//tensorflow/core:android_tensorflow_lib_lite",
-            "//util/hash:farmhash_fingerprint",
+            # "//util/hash:farmhash_fingerprint",  # Commented out to appease bazel query
         ],
         "//conditions:default": [
             "//tensorflow/core:core_cpu",
