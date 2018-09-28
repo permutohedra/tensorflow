@@ -159,6 +159,7 @@ def gen_api_init_files(
             "@//thirdparty/enum34",
             "@//thirdparty/tensorflow:absl_flags",
             "@//thirdparty/tensorflow:protobuf",
+            "@local_config_cuda//cuda",  # NOTE(jongmin): this is a dummy in non-cuda build
         ],
         autogen_deps = False,
     )
