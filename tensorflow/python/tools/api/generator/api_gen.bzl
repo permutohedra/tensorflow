@@ -161,6 +161,9 @@ def gen_api_init_files(
             "@//thirdparty/tensorflow:protobuf",
             "@local_config_cuda//cuda",  # NOTE(jongmin): this is a dummy in non-cuda build
         ],
+        data = [
+            "@local_config_cuda//cuda",  # NOTE(jongmin): this is a dummy in non-cuda build
+        ],
         autogen_deps = False,
     )
 
@@ -175,4 +178,5 @@ def gen_api_init_files(
         srcs = srcs,
         tools = [":" + api_gen_binary_target ],
         visibility = ["//tensorflow:__pkg__"],
+        local = 1,
     )

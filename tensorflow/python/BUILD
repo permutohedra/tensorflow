@@ -3703,6 +3703,7 @@ tf_py_wrap_cc(
         "//tensorflow/core/profiler/internal:print_model_analysis",
         "//tensorflow/tools/graph_transforms:transform_graph_lib",
         "//tensorflow/python/eager:pywrap_tfe_lib",
+        "@local_config_cuda//cuda",  # NOTE(jongmin): this is a dummy in non-cuda build
     ] + (tf_additional_lib_deps() +
          tf_additional_plugin_deps() +
          tf_additional_verbs_deps() +
