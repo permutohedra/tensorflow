@@ -1497,7 +1497,7 @@ def tf_py_wrap_cc(name,
       copts=copts + if_not_windows([
           "-Wno-self-assign", "-Wno-sign-compare", "-Wno-write-strings"
       ]),
-      linkopts=extra_linkopts,
+      linkopts=extra_linkopts + ['-Wl,-rpath,$$ORIGIN/../../../cuda/cuda/cuda/lib64'],  # NOTE(jongmin): HAX
       linkstatic=1,
       deps=deps + extra_deps,
       **kwargs)
@@ -1512,7 +1512,9 @@ def tf_py_wrap_cc(name,
       srcs_version="PY2AND3",
       data=select({
           clean_dep("//tensorflow:windows"): [":" + cc_library_pyd_name],
-          "//conditions:default": [":" + cc_library_name],
+          "//conditions:default": [":" + cc_library_name,
+                                   "@local_config_cuda//cuda:cuda",
+                                   "@local_config_cuda//cuda:cuda_driver"],
       }))
 
 # This macro is for running python tests against system installed pip package
