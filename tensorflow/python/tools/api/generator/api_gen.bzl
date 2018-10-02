@@ -161,10 +161,6 @@ def gen_api_init_files(
             "@//thirdparty/tensorflow:protobuf",
         ],
         autogen_deps = False,
-        data = [
-            "@local_config_cuda//cuda",
-            "@local_config_cuda//cuda:cuda_driver",
-        ],
     )
 
     native.genrule(
