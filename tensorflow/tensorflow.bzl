@@ -1497,10 +1497,10 @@ def tf_py_wrap_cc(name,
       copts=copts + if_not_windows([
           "-Wno-self-assign", "-Wno-sign-compare", "-Wno-write-strings"
       ]),
-      linkopts=extra_linkopts + [
+      linkopts=extra_linkopts + if_cuda([
           '-Wl,-rpath,$$ORIGIN/../../../cuda/cuda/cuda/lib64',
           '-Wl,-rpath,$$ORIGIN/../../../__main__/_solib_k8/_U@cuda_S_Scuda_Ccuda_Udriver___Uexternal_Scuda_Scuda_Scuda_Slib64_Sstubs',
-      ],  # NOTE(jongmin): HAX to get _pywrap_tensorflow_internal.so to find CUDA in py_binary rules
+      ], []), # HAX(jongmin): Let _pywrap_tensorflow_internal.so to find CUDA in py_binary rules
       linkstatic=1,
       deps=deps + extra_deps,
       **kwargs)
